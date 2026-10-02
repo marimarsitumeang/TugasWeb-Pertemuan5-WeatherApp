@@ -1,0 +1,1938 @@
+/* =========================================================
+   SKYCAST WEATHER APP
+   TUGAS RUTIN 5
+   ========================================================= */
+
+
+:root {
+
+    --background: #060b15;
+
+    --background-two: #0a1322;
+
+    --card: rgba(13, 24, 40, 0.82);
+
+    --border: rgba(255, 255, 255, 0.09);
+
+    --text: #f5f7ff;
+
+    --muted: #91a1b9;
+
+    --pink: #ff2f80;
+
+    --pink-light: #ff5c9e;
+
+    --blue: #4fd9ff;
+
+    --shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35);
+
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    font-family: "Inter", sans-serif;
+
+    color: var(--text);
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(255, 47, 128, 0.10),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 90% 30%,
+            rgba(79, 217, 255, 0.08),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            135deg,
+            var(--background),
+            var(--background-two)
+        );
+
+    overflow-x: hidden;
+
+}
+
+
+button,
+input {
+
+    font: inherit;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.background {
+
+    position: fixed;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+}
+
+
+.orb {
+
+    position: absolute;
+
+    width: 350px;
+
+    height: 350px;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    opacity: 0.13;
+
+    animation: moveOrb 10s ease-in-out infinite alternate;
+
+}
+
+
+.orb-one {
+
+    background: var(--pink);
+
+    top: 5%;
+
+    left: -180px;
+
+}
+
+
+.orb-two {
+
+    background: var(--blue);
+
+    right: -180px;
+
+    bottom: 10%;
+
+    animation-delay: -4s;
+
+}
+
+
+@keyframes moveOrb {
+
+    from {
+
+        transform:
+            translate(0, 0)
+            scale(1);
+
+    }
+
+    to {
+
+        transform:
+            translate(80px, -40px)
+            scale(1.15);
+
+    }
+
+}
+
+
+/* =========================================================
+   STARS
+   ========================================================= */
+
+.stars span {
+
+    position: absolute;
+
+    width: 3px;
+
+    height: 3px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    opacity: 0.35;
+
+    animation: twinkle 3s ease-in-out infinite;
+
+}
+
+
+.stars span:nth-child(1) {
+    left: 10%;
+    top: 20%;
+}
+
+.stars span:nth-child(2) {
+    left: 25%;
+    top: 12%;
+    animation-delay: 1s;
+}
+
+.stars span:nth-child(3) {
+    left: 45%;
+    top: 22%;
+    animation-delay: 2s;
+}
+
+.stars span:nth-child(4) {
+    left: 70%;
+    top: 14%;
+    animation-delay: 1.5s;
+}
+
+.stars span:nth-child(5) {
+    left: 85%;
+    top: 40%;
+    animation-delay: 0.5s;
+}
+
+.stars span:nth-child(6) {
+    left: 60%;
+    top: 65%;
+    animation-delay: 2s;
+}
+
+.stars span:nth-child(7) {
+    left: 15%;
+    top: 70%;
+    animation-delay: 1.3s;
+}
+
+.stars span:nth-child(8) {
+    left: 90%;
+    top: 80%;
+    animation-delay: 2.5s;
+}
+
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+
+        opacity: 0.15;
+
+        transform: scale(0.7);
+
+    }
+
+    50% {
+
+        opacity: 0.8;
+
+        transform: scale(1.3);
+
+    }
+
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.container {
+
+    width: min(
+        1120px,
+        calc(100% - 40px)
+    );
+
+    margin: auto;
+
+    position: relative;
+
+    z-index: 1;
+
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+
+    height: 78px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.brand-logo {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 13px;
+
+    background:
+        rgba(255,255,255,0.045);
+
+    font-size: 21px;
+
+    box-shadow:
+        0 8px 30px
+        rgba(0,0,0,0.2);
+
+}
+
+
+.brand h2 {
+
+    font:
+        700
+        18px
+        "Space Grotesk";
+
+}
+
+
+.brand span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+}
+
+
+.nav-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.temperature-toggle {
+
+    display: flex;
+
+    padding: 3px;
+
+    gap: 2px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255,255,255,0.035);
+
+}
+
+
+.unit {
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    padding: 6px 10px;
+
+    border-radius: 999px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.unit.active {
+
+    color: white;
+
+    background:
+        rgba(255,47,128,0.2);
+
+}
+
+
+.history-button {
+
+    width: 37px;
+
+    height: 37px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 19px;
+
+    transition: 0.25s;
+
+}
+
+
+.history-button:hover {
+
+    transform: rotate(-25deg);
+
+    border-color:
+        rgba(255,47,128,0.5);
+
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+
+    padding:
+        58px
+        0
+        35px;
+
+    max-width: 850px;
+
+}
+
+
+.hero-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+
+    color: var(--pink-light);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 3px;
+
+}
+
+
+.hero-label span {
+
+    width: 30px;
+
+    height: 2px;
+
+    background: var(--pink);
+
+}
+
+
+.hero h1 {
+
+    font:
+        700
+        clamp(40px, 6vw, 64px)
+        /
+        1.02
+        "Space Grotesk";
+
+    letter-spacing: -2.5px;
+
+    max-width: 850px;
+
+}
+
+
+.hero h1 strong {
+
+    display: block;
+
+    color: var(--pink);
+
+    font-weight: 700;
+
+}
+
+
+.hero-description {
+
+    max-width: 720px;
+
+    margin-top: 19px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.75;
+
+}
+
+
+.hero-description b {
+
+    color: #d8e0ef;
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-form {
+
+    margin-top: 25px;
+
+    display: flex;
+
+    gap: 9px;
+
+    padding: 6px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 15px;
+
+    background:
+        rgba(5,12,23,0.7);
+
+    box-shadow: var(--shadow);
+
+}
+
+
+.search-input {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex: 1;
+
+    padding-left: 10px;
+
+}
+
+
+.search-input span {
+
+    color: #72839c;
+
+    font-size: 25px;
+
+}
+
+
+.search-input input {
+
+    width: 100%;
+
+    border: 0;
+
+    outline: 0;
+
+    color: white;
+
+    background: transparent;
+
+    font-size: 14px;
+
+}
+
+
+.search-input input::placeholder {
+
+    color: #6f8099;
+
+}
+
+
+.search-button {
+
+    border: 0;
+
+    border-radius: 11px;
+
+    padding:
+        12px
+        18px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff287c,
+            #ff166d
+        );
+
+    font-weight: 800;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px
+        rgba(255,47,128,0.22);
+
+    transition: 0.25s;
+
+}
+
+
+.search-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(255,47,128,0.32);
+
+}
+
+
+.search-button:disabled {
+
+    opacity: 0.7;
+
+    cursor: wait;
+
+}
+
+
+/* =========================================================
+   QUICK SEARCH
+   ========================================================= */
+
+.quick-search {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 11px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+}
+
+
+.city-chip {
+
+    border:
+        1px solid var(--border);
+
+    background:
+        rgba(255,255,255,0.035);
+
+    color: #c4cfdf;
+
+    border-radius: 999px;
+
+    padding:
+        5px
+        10px;
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.city-chip:hover {
+
+    color: white;
+
+    border-color:
+        rgba(255,47,128,0.4);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status-area {
+
+    min-height: 10px;
+
+}
+
+
+.status {
+
+    margin-bottom: 18px;
+
+    padding:
+        13px
+        15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 13px;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    color: #cbd5e5;
+
+    font-size: 12px;
+
+    animation:
+        slideUp 0.35s ease;
+
+}
+
+
+.status.error {
+
+    color: #ffd4dc;
+
+    border-color:
+        rgba(255,70,100,0.35);
+
+    background:
+        rgba(255,50,80,0.08);
+
+}
+
+
+.status.success {
+
+    border-color:
+        rgba(79,217,255,0.2);
+
+}
+
+
+/* =========================================================
+   SPINNER
+   ========================================================= */
+
+.spinner {
+
+    width: 15px;
+
+    height: 15px;
+
+    flex-shrink: 0;
+
+    border:
+        2px solid
+        rgba(255,255,255,0.2);
+
+    border-top-color:
+        var(--pink);
+
+    border-radius: 50%;
+
+    animation:
+        spin 0.7s linear infinite;
+
+}
+
+
+@keyframes spin {
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+.dashboard {
+
+    display: grid;
+
+    grid-template-columns:
+        1.6fr
+        0.8fr;
+
+    gap: 16px;
+
+    animation:
+        dashboardIn 0.55s ease;
+
+}
+
+
+.hidden {
+
+    display: none !important;
+
+}
+
+
+/* =========================================================
+   WEATHER CARD
+   ========================================================= */
+
+.weather-card,
+.small-card,
+.tip-card,
+.forecast-card,
+.history-card {
+
+    position: relative;
+
+    border:
+        1px solid var(--border);
+
+    background:
+        var(--card);
+
+    border-radius: 21px;
+
+    box-shadow: var(--shadow);
+
+    backdrop-filter: blur(16px);
+
+    overflow: hidden;
+
+}
+
+
+.weather-card {
+
+    padding: 25px;
+
+    min-height: 355px;
+
+}
+
+
+.card-light {
+
+    position: absolute;
+
+    width: 250px;
+
+    height: 250px;
+
+    border-radius: 50%;
+
+    right: -130px;
+
+    top: -130px;
+
+    background: var(--pink);
+
+    filter: blur(90px);
+
+    opacity: 0.09;
+
+}
+
+
+.weather-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+}
+
+
+.mini-label {
+
+    display: block;
+
+    color: var(--pink-light);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+}
+
+
+.weather-header h2 {
+
+    margin-top: 5px;
+
+    font:
+        700
+        27px
+        "Space Grotesk";
+
+}
+
+
+.weather-header p {
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+}
+
+
+.weather-badge {
+
+    padding:
+        6px
+        10px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 999px;
+
+    color: #cbd7e8;
+
+    font-size: 10px;
+
+}
+
+
+/* =========================================================
+   MAIN WEATHER
+   ========================================================= */
+
+.weather-main {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding:
+        28px
+        0
+        24px;
+
+}
+
+
+.weather-icon {
+
+    font-size: 67px;
+
+    animation:
+        floating 4s ease-in-out infinite;
+
+    filter:
+        drop-shadow(
+            0 12px 18px
+            rgba(0,0,0,0.3)
+        );
+
+}
+
+
+@keyframes floating {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-8px)
+            rotate(2deg);
+
+    }
+
+}
+
+
+.temperature {
+
+    display: flex;
+
+    align-items: flex-start;
+
+}
+
+
+.temperature span {
+
+    font:
+        700
+        clamp(65px, 8vw, 88px)
+        /
+        0.8
+        "Space Grotesk";
+
+    letter-spacing: -5px;
+
+}
+
+
+.temperature sup {
+
+    margin-top: 4px;
+
+    color: var(--pink-light);
+
+    font-size: 25px;
+
+}
+
+
+.condition h3 {
+
+    text-transform: capitalize;
+
+    font-size: 17px;
+
+}
+
+
+.condition p {
+
+    margin-top: 7px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+}
+
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.details-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 8px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid var(--border);
+
+}
+
+
+.weather-detail {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+.detail-icon {
+
+    font-size: 18px;
+
+}
+
+
+.weather-detail small {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+}
+
+
+.weather-detail strong {
+
+    font-size: 11px;
+
+}
+
+
+/* =========================================================
+   SIDE
+   ========================================================= */
+
+.side-cards {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+}
+
+
+.small-card {
+
+    padding: 22px;
+
+}
+
+
+.small-card-title {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+}
+
+
+.small-card-title h3 {
+
+    margin-top: 5px;
+
+    font:
+        600
+        17px
+        "Space Grotesk";
+
+}
+
+
+.sun {
+
+    font-size: 25px;
+
+    animation:
+        floating 3s ease-in-out infinite;
+
+}
+
+
+.sun-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 8px;
+
+    margin-top: 22px;
+
+}
+
+
+.sun-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 11px;
+
+    border-radius: 13px;
+
+    background:
+        rgba(255,255,255,0.035);
+
+}
+
+
+.sun-item > span {
+
+    font-size: 19px;
+
+}
+
+
+.sun-item small {
+
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+}
+
+
+.sun-item strong {
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   TIP
+   ========================================================= */
+
+.tip-card {
+
+    padding: 20px;
+
+    display: flex;
+
+    gap: 13px;
+
+    min-height: 107px;
+
+}
+
+
+.tip-symbol {
+
+    color: var(--pink-light);
+
+    font-size: 22px;
+
+}
+
+
+.tip-card p {
+
+    margin-top: 6px;
+
+    color: #bdc9db;
+
+    font-size: 11px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================================
+   FORECAST
+   ========================================================= */
+
+.forecast-card {
+
+    grid-column: 1 / -1;
+
+    padding: 24px;
+
+}
+
+
+.section-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+}
+
+
+.section-heading h2 {
+
+    margin-top: 4px;
+
+    font:
+        600
+        21px
+        "Space Grotesk";
+
+}
+
+
+.update-text {
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+}
+
+
+.forecast-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 9px;
+
+    margin-top: 20px;
+
+}
+
+
+.forecast-item {
+
+    padding:
+        16px
+        10px;
+
+    text-align: center;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 15px;
+
+    background:
+        rgba(255,255,255,0.025);
+
+    transition: 0.25s;
+
+}
+
+
+.forecast-item:hover {
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(255,47,128,0.35);
+
+    background:
+        rgba(255,47,128,0.06);
+
+}
+
+
+.forecast-item.today {
+
+    border-color:
+        rgba(255,47,128,0.35);
+
+    background:
+        rgba(255,47,128,0.07);
+
+}
+
+
+.forecast-day {
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+}
+
+
+.forecast-icon {
+
+    margin:
+        10px 0;
+
+    font-size: 29px;
+
+}
+
+
+.forecast-temp {
+
+    font:
+        700
+        16px
+        "Space Grotesk";
+
+}
+
+
+.forecast-temp span {
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-family: Inter;
+
+}
+
+
+.forecast-desc {
+
+    min-height: 25px;
+
+    margin-top: 5px;
+
+    color: #8999b1;
+
+    font-size: 9px;
+
+    text-transform: capitalize;
+
+}
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+.history-card {
+
+    grid-column: 1 / -1;
+
+    padding: 24px;
+
+}
+
+
+.clear-history {
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--pink-light);
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+}
+
+
+.history-list {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 17px;
+
+}
+
+
+.history-item {
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 999px;
+
+    padding:
+        7px
+        11px;
+
+    color: #c5d0df;
+
+    background:
+        rgba(255,255,255,0.035);
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 20;
+
+    display: grid;
+
+    place-items: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0,0,0,0.6);
+
+    backdrop-filter: blur(10px);
+
+}
+
+
+.modal-box {
+
+    position: relative;
+
+    width: min(
+        420px,
+        100%
+    );
+
+    padding: 26px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 20px;
+
+    background: #0d192b;
+
+    box-shadow: var(--shadow);
+
+    animation:
+        slideUp 0.3s ease;
+
+}
+
+
+.modal-box h2 {
+
+    margin:
+        5px
+        0
+        18px;
+
+    font:
+        600
+        26px
+        "Space Grotesk";
+
+}
+
+
+.close-modal {
+
+    position: absolute;
+
+    top: 13px;
+
+    right: 17px;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 27px;
+
+    cursor: pointer;
+
+}
+
+
+.modal-history-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding:
+        12px
+        0;
+
+    border-bottom:
+        1px solid var(--border);
+
+    color: #cbd5e4;
+
+    font-size: 11px;
+
+}
+
+
+.modal-history-item button {
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--pink-light);
+
+    font-size: 10px;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding:
+        35px
+        0
+        25px;
+
+    color: #63748d;
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes slideUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(12px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+@keyframes dashboardIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+    .dashboard {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .side-cards {
+
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .container {
+
+        width:
+            calc(100% - 24px);
+
+    }
+
+
+    .navbar {
+
+        height: 70px;
+
+    }
+
+
+    .hero {
+
+        padding-top: 42px;
+
+    }
+
+
+    .hero h1 {
+
+        font-size: 42px;
+
+        letter-spacing: -2px;
+
+    }
+
+
+    .hero-description {
+
+        font-size: 12px;
+
+    }
+
+
+    .search-form {
+
+        flex-direction: column;
+
+    }
+
+
+    .search-button {
+
+        width: 100%;
+
+    }
+
+
+    .weather-main {
+
+        flex-wrap: wrap;
+
+        gap: 13px;
+
+    }
+
+
+    .weather-icon {
+
+        font-size: 55px;
+
+    }
+
+
+    .temperature span {
+
+        font-size: 67px;
+
+    }
+
+
+    .details-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+        row-gap: 17px;
+
+    }
+
+
+    .side-cards {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .forecast-grid {
+
+        display: flex;
+
+        overflow-x: auto;
+
+    }
+
+
+    .forecast-item {
+
+        min-width: 120px;
+
+    }
+
+
+    footer {
+
+        flex-direction: column;
+
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .hero h1 {
+
+        font-size: 35px;
+
+    }
+
+
+    .brand span {
+
+        display: none;
+
+    }
+
+
+    .weather-header h2 {
+
+        font-size: 23px;
+
+    }
+
+}
